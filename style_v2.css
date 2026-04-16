@@ -368,17 +368,17 @@ body {
     .avatar-container { width: 120px; height: 120px; }
     .link-item { padding: 16px 20px; }
     
-    /* Zoom out background for mobile - ULTRA TINY */
+    /* Reset background for mobile to fit perfectly */
     .video-layer video {
-        object-fit: contain !important;
-        transform: scale(0.2) !important; /* Half the size of previous 0.4 */
-        transform-origin: center 20px; /* Kept near the top but adjusted for scale */
+        object-fit: cover !important;
+        transform: none !important;
+        transform-origin: center;
     }
     
     body {
-        background-size: 20% auto !important; /* Match the video scale */
+        background-size: cover !important;
         background-color: #000 !important;
-        background-position: center 20px !important;
+        background-position: center center !important;
     }
     
     .background-container {
