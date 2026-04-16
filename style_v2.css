@@ -1,0 +1,397 @@
+    /* Pure Monochrome Palette - Fully Transparent Edition */
+    --bg-black: #000000;
+    --card-bg: transparent; 
+    --card-border: rgba(255, 255, 255, 0.2);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --glass-highlight: rgba(255, 255, 255, 0.05);
+    --hover-effect: rgba(255, 255, 255, 0.1);
+    --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Video Layers */
+.video-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000; /* Intro stays below UI */
+    transition: opacity 1.5s ease-in-out;
+    background: black; /* Prevent flash */
+    overflow: hidden;
+}
+
+#video-loop-container {
+    z-index: -2; /* Loop stays behind branding */
+}
+
+.video-layer video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-layer.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+body {
+    background: url('assets/forest_master_bg.png') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Cinematic Background */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: transparent; /* Changed from #000 to reveal the loop video */
+}
+
+#canvas-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.background-logo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -120%);
+    width: 320px;
+    height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.25;
+    filter: drop-shadow(0 0 30px #4fb8c7) brightness(1.5);
+    mix-blend-mode: screen;
+}
+
+/* Cinematic texture overlay remains for depth */
+.branch-image {
+    display: none; /* Removed for full transparency */
+}
+
+/* Master Artwork already contains logo and framing */
+.background-logo, .trunk-left, .trunk-right, .logo-side {
+    display: none;
+}
+
+.background-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#spotlight {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    filter: blur(60px);
+}
+
+.noise {
+    display: none; /* Removed for full transparency */
+}
+
+@keyframes noiseShift {
+    0% { transform: translate(0,0); }
+    10% { transform: translate(-1%,-1%); }
+    20% { transform: translate(1%,1%); }
+    30% { transform: translate(-2%,-2%); }
+    40% { transform: translate(2%,2%); }
+    50% { transform: translate(-1%,1%); }
+    60% { transform: translate(1%,-1%); }
+    70% { transform: translate(2%,-2%); }
+    80% { transform: translate(-2%,2%); }
+    90% { transform: translate(1%,1%); }
+    100% { transform: translate(0,0); }
+}
+
+.vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.4); /* Reduced opacity from 0.9 to 0.4 */
+    pointer-events: none;
+    z-index: 6;
+    animation: vignetteBreathe 8s ease-in-out infinite;
+}
+
+@keyframes vignetteBreathe {
+    0%, 100% { box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.4); }
+    50% { box-shadow: inset 0 0 250px rgba(0, 0, 0, 0.5); }
+}
+
+/* Layout: Positioned in 'Roots Zone' to show the Background Logo fully on top */
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Links sit at the very bottom */
+    min-height: 100vh;
+    padding: 0 20px 40px; /* Minimal bottom padding to hug the floor */
+    z-index: 1100; /* Layered ABOVE the video intro */
+    position: relative;
+    opacity: 0.4; /* Faded in from the beginning */
+    transform: translateY(10px);
+    transition: opacity 2s ease, transform 2s ease;
+}
+
+.main-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.profile-card {
+    background: transparent !important; 
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important; 
+    padding: 40px;
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+    box-shadow: none !important; 
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Profile Section */
+.profile-header {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+#brand-name {
+    display: none; /* Already in background image */
+}
+
+#tagline {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+/* Links Container */
+.links-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.link-item {
+    display: flex;
+    align-items: center;
+    padding: 18px 24px;
+    text-decoration: none;
+    color: var(--text-primary);
+    border-radius: 16px;
+    transition: var(--transition);
+    border: none !important; 
+    position: relative;
+    overflow: hidden;
+}
+
+/* Enhanced Transparent Effect */
+.glass {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.glassHighlight {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important; 
+}
+
+.brand-logo {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+    transition: var(--transition);
+    color: var(--text-primary);
+}
+
+.link-item span {
+    flex-grow: 1;
+    text-align: left;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    font-size: 1rem;
+}
+
+.chevron {
+    width: 18px;
+    height: 18px;
+    opacity: 0.3;
+}
+
+/* Interactions */
+.link-item:hover {
+    transform: scale(1.02) translateY(-2px);
+    background: var(--hover-effect);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.08);
+}
+
+.link-item:hover .brand-logo {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.link-item:hover .chevron {
+    opacity: 1;
+    transform: translateX(3px);
+}
+
+/* Shimmer Effect on Item */
+.link-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.link-item:hover::after {
+    left: 100%;
+}
+
+/* Volume Control */
+.volume-control {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 2000;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.volume-control:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.1);
+}
+
+.sound-icon {
+    width: 20px;
+    height: 20px;
+    transition: var(--transition);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Social Footer */
+.social-footer {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.social-footer a {
+    color: var(--text-secondary);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-footer a:hover {
+    color: var(--text-primary);
+    transform: translateY(-3px);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 480px) {
+    #brand-name { font-size: 1.8rem; }
+    .avatar-container { width: 120px; height: 120px; }
+    .link-item { padding: 16px 20px; }
+    
+    /* Zoom out background for mobile - ULTRA TINY */
+    .video-layer video {
+        object-fit: contain !important;
+        transform: scale(0.2) !important; /* Half the size of previous 0.4 */
+        transform-origin: center 20px; /* Kept near the top but adjusted for scale */
+    }
+    
+    body {
+        background-size: 20% auto !important; /* Match the video scale */
+        background-color: #000 !important;
+        background-position: center 20px !important;
+    }
+    
+    .background-container {
+        background: #000 !important;
+    }
+
+    .main-content {
+        padding-top: 120px; /* Adjusted for the tiny logo */
+        padding-bottom: 60px;
+    }
+
+    .profile-card {
+        padding: 24px 16px;
+        background: transparent !important;
+    }
+}
