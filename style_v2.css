@@ -369,20 +369,32 @@ body {
     .link-item { padding: 16px 20px; }
     
     /* Reset background for mobile to fit perfectly */
+    .video-layer {
+        height: 100dvh !important; /* Dynamic viewport height to prevent gaps */
+    }
+    
     .video-layer video {
         object-fit: cover !important;
-        transform: scale(1.05) !important; /* Slight zoom to make it feel 'closer' */
+        transform: scale(1.1) !important; /* Zoom to fill screen and feel closer */
         transform-origin: center;
+        width: 100% !important;
+        height: 100dvh !important;
     }
     
     body {
         background-size: cover !important;
         background-color: #000 !important;
-        background-position: center 30% !important; /* Shift vertical focus if needed */
+        background-position: center center !important; 
+        min-height: 100dvh;
     }
     
     .background-container {
         background: #000 !important;
+        height: 100dvh !important;
+    }
+
+    .branch-layer {
+        background-size: cover !important; /* Ensure the branch frame stretches to the edges */
     }
 
     .main-content {
@@ -390,6 +402,7 @@ body {
         padding-top: 100px;
         padding-bottom: 60px;
         justify-content: center;
+        min-height: 100dvh;
     }
 
     .profile-card {
